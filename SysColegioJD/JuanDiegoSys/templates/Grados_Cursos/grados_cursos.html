@@ -1,0 +1,72 @@
+{% extends "main.html" %}
+{% load staticfiles %}
+
+{% block main %}
+
+<section class="page-section" id="contact">
+    <div class="container">
+
+        <center><h3>Asignación de Grados Educativos y Cursos</h3></center>
+        <div align="left" class="btn_crear mb-3">
+            <a href="insert_grado_curso" type="button" class="btn btn-info">Nueva Asignación Grado-Curso</a>
+        </div>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <th>GRADO EDUCATIVO</th>
+        <th>CURSO O MATERIA</th>
+        <th>ACCIONES</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for grados_cursos in object_list %}
+    <tr>
+        <td>{{ grados_cursos.grados_id_grado }}</td>
+        <td>{{ grados_cursos.cursos_id_curso }}</td>
+        <td>
+
+            <form method="POST" action="grados_cursos/eliminar_carrera/{{niveles_educativos.id}}">
+
+                {% csrf_token %}
+
+                <div class="btn-group">
+                    <a href="detalle_grado_curso/{{grados_cursos.id}}" title="Ver" type="button" class="btn btn-info">Ver </a>
+                    <a href="editar_grado_curso/{{grados_cursos.id}}" title="Editar" type="button" class="btn btn-success">Editar </a>
+                    <button class="btn btn-danger" onclick="return eliminar();" type="submit">
+                        Eliminar
+                    </button>
+                    <!-- <a href="eliminar/{{postre.id}}" title="Eliminar"><i class="fas fa-trash"></i> </a> -->
+                </div>
+
+            </form>
+
+        </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="8">No hay niveles registrados</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+        <div class="col-md-10">
+
+            <div class="table-responsive">
+
+                {% if messages %}
+                <ul class="messages list-group mb-3">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }} list-group-item list-group-item-primary"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+
+
+                <!-- Agregar la tabla en este espacio -->
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock main %}

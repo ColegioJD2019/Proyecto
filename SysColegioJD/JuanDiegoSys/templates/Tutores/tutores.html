@@ -1,0 +1,80 @@
+{% extends "main.html" %}
+{% load staticfiles %}
+
+{% block main %}
+
+<section class="page-section" id="contact">
+    <div class="container">
+
+        <center><h3>Listado de Tutores, Responsables, Padres de Familia</h3></center>
+        <div align="left" class="btn_crear mb-3">
+            <a href="insert_tutor" type="button" class="btn btn-info">Nuevo Tutor</a>
+        </div>
+
+        <table class="table table-striped table-responsive table-bordered">
+            <thead>
+            <th>DPI</th>
+            <th>NOMBRES TUTOR</th>
+            <th>APELLIDOS TUTOR</th>
+            <th>TELEFONO CELULAR</th>
+            <th>DIRECCION</th>
+            <th>CORREO ELECTRONICO</th>
+            <th>FECHA DE INGRESO</th>
+            <th>ACCIONES</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for tutores in object_list %}
+            <tr>
+                <td>{{ tutores.dpi_tutor }}</td>
+                <td>{{ tutores.nombres_tutor }}</td>
+                <td>{{ tutores.apellidos_tutor }}</td>
+                <td>{{ tutores.telefono_tutor }}</td>
+                <td>{{ tutores.direccion_tutor }}</td>
+                <td>{{ tutores.email_tutor  }}</td>
+                <td>{{ tutores.fecha_creacion }}</td>
+                <td>
+
+                    <form method="POST" action="eliminar/{{estudiante.id}}">
+
+                        {% csrf_token %}
+
+                        <div class="btn-group">
+                            <a href="detalle_tutor/{{tutores.id}}" title="Ver" type="button" class="btn btn-info">Ver </a>
+                            <a href="editar_tutor/{{tutores.id}}" title="Editar" type="button" class="btn btn-success">Editar </a>
+                            <button class="btn btn-danger" onclick="return eliminar();" type="submit">
+                                Eliminar
+                            </button>
+                            <!-- <a href="eliminar/{{postre.id}}" title="Eliminar"><i class="fas fa-trash"></i> </a> -->
+                        </div>
+
+                    </form>
+
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="8">No hay cursos registrados</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="col-md-10">
+
+            <div class="table-responsive">
+
+                {% if messages %}
+                <ul class="messages list-group mb-3">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }} list-group-item list-group-item-primary"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <!-- Agregar la tabla en este espacio -->
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock main %}

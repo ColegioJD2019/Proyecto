@@ -1,0 +1,78 @@
+{% extends "main.html" %}
+{% load staticfiles %}
+
+{% block main %}
+
+<section class="page-section" id="contact">
+    <div class="container">
+
+        <center><h3>Lista de pagos de todos los estudiantes</h3></center>
+        <div align="left" class="btn_crear mb-3">
+            <a href="insert_colegiatura" type="button" class="btn btn-info">Registro de Nueva Colegiatura</a>
+        </div>
+
+        <table class="table table-striped table-bordered">
+            <thead>
+            <th>PERSONAL</th>
+            <th>TUTOR O RESPONSABLE</th>
+            <th>ESTUDIANTE</th>
+            <th>NOMBRE MES</th>
+            <th>FECHA DE REGISTRO</th>
+            <th>CANTIDAD</th>
+            <th>DESCRIPCION</th>
+            <th>ACCIONES</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for colegiaturas in object_list %}
+            <tr>
+                <td>{{ colegiaturas.personal_id_personal }}</td>
+                <td>{{ colegiaturas.tutores_id_tutor }}</td>
+                <td>{{ colegiaturas.estudiantes_id_estudiante }}</td>
+                <td>{{ colegiaturas.colegiaturas_id_mes }}</td>
+                <td>{{ colegiaturas.fecha_transaccion }}</td>
+                <td>{{ colegiaturas.cantidadtotal }}</td>
+                <td>{{ colegiaturas.descripcion }}</td>
+                <td>
+
+                    <form method="POST" action="eliminar/{{notas.id}}">
+
+                        {% csrf_token %}
+
+                        <div class="btn-group">
+                            <a href="detalle_colegiatura/{{colegiaturas.id}}" title="Ver" type="button" class="btn btn-info">Ver </a>
+                            <a href="editar_colegiatura/{{colegiaturas.id}}" title="Editar" type="button" class="btn btn-success">Editar </a>
+                            <button class="btn btn-danger" onclick="return eliminar();" type="submit">
+                                Eliminar
+                            </button>
+                            <!-- <a href="eliminar/{{notas.id}}" title="Eliminar"><i class="fas fa-trash"></i> </a> -->
+                        </div>
+
+                    </form>
+
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="8">No hay registro de colegiaturas</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="col-md-10">
+
+            <div class="table-responsive">
+
+                {% if messages %}
+                <ul class="messages list-group mb-3">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }} list-group-item list-group-item-primary"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <!-- Agregar la tabla en este espacio -->
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock main %}

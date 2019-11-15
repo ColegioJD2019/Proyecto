@@ -1,0 +1,59 @@
+{% extends "main.html" %}
+{% load staticfiles %}
+
+{% block main %}
+
+<section class="page-section" id="contact">
+    <div class="container">
+
+        <center><h3>Lista de Niveles Educativos</h3></center>
+        <div align="left" class="btn_crear mb-3">
+            <a href="insert_nivel" type="button" class="btn btn-info">Nuevo Nivel</a>
+        </div>
+        <!-- <table class="table table-striped table-responsive table-bordered"> -->
+        <table class="table table-striped table-bordered">
+            <thead>
+            <th>NIVELES EDUCATIVOS</th>
+            <th>ACCIONES</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for niveles_educativos in object_list %}
+            <tr>
+                <td>{{ niveles_educativos.nombre_nivel }}</td>
+                <td>
+                    <form method="POST" action="niveles_edu/eliminar_nivel/{{niveles_educativos.id}}">
+                        {% csrf_token %}
+                        <div class="btn-group">
+                            <a href="detalle_nivel/{{niveles_educativos.id}}" title="Ver" type="button" class="btn btn-info">Ver </a>
+                            <a href="editar_nivel/{{niveles_educativos.id}}" title="Editar" type="button" class="btn btn-success">Editar </a>
+                            <button class="btn btn-danger" onclick="return eliminar();" type="submit">
+                                Eliminar
+                            </button>
+                            <!-- <a href="eliminar/{{postre.id}}" title="Eliminar"><i class="fas fa-trash"></i> </a> -->
+                        </div>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="8">No hay niveles registrados</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="col-md-10">
+            <div class="table-responsive">
+                {% if messages %}
+                <ul class="messages list-group mb-3">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }} list-group-item list-group-item-primary"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <!-- Agregar la tabla en este espacio -->
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+{% endblock main %}
